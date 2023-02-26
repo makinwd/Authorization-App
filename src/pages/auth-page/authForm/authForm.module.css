@@ -10,10 +10,6 @@
     text-align: center;      
 } 
 
-.authForm__subtitle {
-    color: rgb(180, 184, 193)
-}
-
 .authForm__form {
     max-width: 400px;
 }

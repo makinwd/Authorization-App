@@ -1,39 +1,69 @@
 import React, { FC } from 'react';
-import Typography from '@mui/material/Typography';
+import { AuthParagraph } from './authParagraph/authParagraph';
 import Button from '@mui/material/Button';
 import styles from './authForm.module.css';
 import { TextField } from '@mui/material';
+import { loginValidation } from './validationLogin';
+import { passwordValidation } from './validationPassword';
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useFormState,
+} from 'react-hook-form';
 
+interface ISignForm {
+  login: string;
+  password: string;
+}
 
 export const AuthForm: FC = () => {
+  const { handleSubmit, control } = useForm<ISignForm>();
+  const { errors } = useFormState({ control });
+
+  const onSubmit: SubmitHandler<ISignForm> = (data) => 
+  localStorage.setItem('auth', JSON.stringify(data));
+  alert('Вы успешно вошли!')
+
   return (
     <div className={styles.authForm}>
-      <Typography variant="h4" component="div">
-        Войдите
-      </Typography>
-      <Typography
-        variant="subtitle1"
-        component="div"
-        gutterBottom={true}
-        className={styles.authForm__subtitle}
-      >
-        Если ранее регистрировались
-      </Typography>
-      <form className={styles.authForm__form}>
-        <TextField
-          label="Логин"
-          size="small"
-          margin="normal"
-          className={styles.authForm__input}
-          fullWidth={true}
+      <AuthParagraph />
+      <form className={styles.authForm__form} onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          control={control}
+          name="login"
+          rules={loginValidation}
+          render={({ field }) => (
+            <TextField
+              label="Логин"
+              size="small"
+              margin="normal"
+              className="authForm__input"
+              fullWidth={true}
+              onChange={(e) => field.onChange(e)}
+              value={field.value}
+              error={!!errors.login?.message}
+              helperText={errors.login?.message}
+            />
+          )}
         />
-        <TextField
-          label="Пароль"
-          type="password"
-          size="small"
-          margin="normal"
-          className={styles.authForm__input}
-          fullWidth={true}
+        <Controller
+          control={control}
+          rules={passwordValidation}
+          name="password"
+          render={({ field }) => (
+            <TextField
+              label="Пароль"
+              size="small"
+              margin="normal"
+              className="authForm__input"
+              fullWidth={true}
+              onChange={(e) => field.onChange(e)}
+              value={field.value}
+              error={!!errors.password?.message}
+              helperText={errors.password?.message}
+            />
+          )}
         />
         <Button
           type="submit"
