@@ -1,0 +1,7 @@
+.authPage{
+    height: 100vh;
+    background: no-repeat url(./glacier.jpg);
+    background-size: cover;
+    /* background-position: center center */
+}
+  
