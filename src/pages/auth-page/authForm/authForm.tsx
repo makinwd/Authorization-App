@@ -23,7 +23,6 @@ export const AuthForm: FC = () => {
 
   const onSubmit: SubmitHandler<ISignForm> = (data) => 
   localStorage.setItem('auth', JSON.stringify(data));
-  alert('Вы успешно вошли!')
 
   return (
     <div className={styles.authForm}>
@@ -53,6 +52,7 @@ export const AuthForm: FC = () => {
           name="password"
           render={({ field }) => (
             <TextField
+              type='password'
               label="Пароль"
               size="small"
               margin="normal"
